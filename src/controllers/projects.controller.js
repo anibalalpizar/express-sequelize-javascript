@@ -1,4 +1,5 @@
 import { Project } from '../models/Project.js';
+import { Tasks } from '../models/Task.js';
 
 export const getProjects = async (req, res) => {
     try {
@@ -80,5 +81,17 @@ export const getProjectById = async (req, res) => {
             message: "Error retrieving project"
         })
     }
+}
 
+export const getTasksByProjectId = async (req, res) => {
+    const { id } = req.params;
+    
+    try {
+        const tasks = await Tasks.findAll({ where: { projectId: id } })
+        res.json(tasks)
+    } catch (error) {
+        res.status(500).json({
+            message: "Error retrieving tasks"
+        })
+    }
 }
