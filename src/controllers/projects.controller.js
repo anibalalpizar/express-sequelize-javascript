@@ -3,6 +3,12 @@ import { Project } from '../models/Project.js';
 export const getProjects = async (req, res) => {
     try {
         const projects = await Project.findAll();
+
+        if (projects.length === 0)
+            return res.status(404).json({
+                message: "No projects found"
+            })
+
         res.json(projects);
     } catch (error) {
         res.status(500).json({
@@ -67,7 +73,7 @@ export const getProjectById = async (req, res) => {
         if (!project) return res.status(404).json({
             message: "Project not found"
         })
-        
+
         res.json(project);
     } catch (error) {
         res.status(500).json({
